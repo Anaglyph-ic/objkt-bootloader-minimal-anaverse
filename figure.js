@@ -65,6 +65,8 @@ const genererFigures = (hex, anaverse, deltaLocation) => {
   const r = () => rnd();
   const rint = (n) => Math.floor(n * r());
   const rarr = (arr) => arr[Math.floor(r() * arr.length)];
+
+  // pile
   for (let i = 0; i < 1 + r() * 10; i++) {
     const cube = {
       geometry: {
@@ -73,9 +75,9 @@ const genererFigures = (hex, anaverse, deltaLocation) => {
       },
       pos: {
         // Position
-        x: (-0.5 + r() * 1) * u,
+        x: -4 + (-0.5 + r() * 1) * u,
         y: i,
-        z: (-0.5 + r() * 1) * u,
+        z: -4 + (-0.5 + r() * 1) * u,
       },
       rot: {
         // Rotation
@@ -97,7 +99,36 @@ const genererFigures = (hex, anaverse, deltaLocation) => {
     figures.push(cube);
   }
 
-  features.Name = "Cube " + r();
+  features.Name = "Cube " + hex;
+
+  // ground
+  figures.push({
+    geometry: {
+      type: "BoxGeometry",
+      args: [20, 1, 20],
+    },
+    pos: {
+      // Position
+      x: 0,
+      y: -1,
+      z: 0,
+    },
+    rot: {
+      // Rotation
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+    scale: {
+      // Scale
+      x: 1,
+      y: 1,
+      z: 1,
+    },
+    lines: true, // Display color segments (like wireframe, but faces not triangles)
+    hatch: true, // Fill with white texture
+    full: false, // Fill with color texture (in the anaverse, black)
+  });
 
   return { figures, features };
 };

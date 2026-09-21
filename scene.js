@@ -1,5 +1,6 @@
 // Building THREE scene
 import * as THREE from "three";
+import { OrbitControls } from "./OrbitControls.js";
 
 const buildScene = () => {
   // Create and set up scene
@@ -27,7 +28,19 @@ const buildScene = () => {
   document.body.appendChild(renderer.domElement);
 
   // Render function
-  const render = () => renderer.render(scene, camera);
+  const renderThumbnail = () => renderer.render(scene, camera);
+
+  const renderDevView = () => {
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.update();
+
+    function animate(time) {
+      controls.update();
+
+      renderer.render(scene, camera);
+    }
+    renderer.setAnimationLoop(animate);
+  };
 
   window.addEventListener("resize", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -36,7 +49,7 @@ const buildScene = () => {
     renderer.render(scene, camera);
   });
 
-  return { scene, rendererDOM, render };
+  return { scene, rendererDOM, renderThumbnail, renderDevView };
 };
 
 export { buildScene };
